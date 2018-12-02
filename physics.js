@@ -26,7 +26,10 @@ var physics = function(body, opts) {
 
         var bodies = physics.getCollidingBodies(_this);
         if (bodies.length > 0) {
-            console.log("Coliddion");
+          body.generateGraphics(0xff0000);
+            //console.log("Coliddion");
+        } else {
+          body.generateGraphics(0x00ff00);
         }
     };
 
@@ -52,7 +55,7 @@ physics.getCollidingBodies = function(body) {
 
         var ab = body.body;
         var bb = b.body;
-        if (ab.x + ab.width > bb.x && ab.x < bb.x + bb.width && ab.y + ab.height > bb.y && ab.y < bb.y + bb.height) {
+        if (ab.x + ab.width/2 > bb.x && ab.x < bb.x + bb.width/2 && ab.y + ab.height/2 > bb.y && ab.y < bb.y + bb.height/2) {
             bodies.push(b);
         }
     });
