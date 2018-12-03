@@ -8,19 +8,103 @@ html {
 }
 
 body {
-    background: darkgoldenrod;
+    background: #eab44e;
     margin: 0;
     width: 100%;
     height: 100%;
+    font-family: 'Bitter';
+    font-size: 14px;
+}
+
+h2 {
+    font-size: 1.3em;
+    padding: 10px 0 0 0;
+    margin: 0;
+}
+
+h3 {
+    font-size: 1.1em;
+    padding: 0;
+    margin: 0;
+}
+
+p {
+    padding: 0;
+    margin: 0;
 }
 
 #container {
+    position: relative;
     width: 100%;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 10px;
+    padding: 40px;
+}
+
+#container.blur {
+    filter: blur(4px);
+}
+
+#stats {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    background: rgba(255,255,255,0.2);
+    color: black;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+}
+
+.result {
+    width: 100%;
+    max-width: 800px;
+    max-height: 800px;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 60px;
+}
+
+.result__col {
+    width: 48%;
+    background: rgba(255,255,255,0.8);
+    padding: 20px;
+    max-height: 100%;
+    overflow-y: auto;
+}
+
+.info {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    pointer-events: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.info__inner {
+    width: 100%;
+    max-width: 800px;
+    max-height: 800px;
+    height: 100%;
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 3em;
+    text-shadow: 0.08em 0.08em 0px rgba(255, 255, 255, 1);
 }
 
 canvas {
@@ -28,4 +112,18 @@ canvas {
     max-height: 100%;
     flex-grow: 0;
     border: 4px solid white;
+}
+
+.controls {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    padding: 40px;
+}
+input {
+    font-family: 'Bitter';
+    border: 4px solid black;
+    background:white;
+    font-size: 2em;
+    box-shadow: 0.08em 0.08em 0px white;
 }

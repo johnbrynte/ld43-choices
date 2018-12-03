@@ -41,8 +41,8 @@ var input = (function() {
 
     ////
 
-    document.addEventListener('touchstart', preventtouchHandler, { passive: false });
-    document.addEventListener('touchmove', preventtouchHandler, { passive: false });
+    // document.addEventListener('touchstart', preventtouchHandler, { passive: false });
+    // document.addEventListener('touchmove', preventtouchHandler, { passive: false });
 
     function preventtouchHandler(evt) {
       evt.preventDefault();
@@ -51,7 +51,7 @@ var input = (function() {
     ////
 
     el.addEventListener("touchstart", function(evt) {
-      evt.preventDefault();
+      //evt.preventDefault();
       if (evt.touches.length > 1) return;
       self.prev = evtToPos(evt.touches[0]);
       self.touch = self.prev;
@@ -59,7 +59,7 @@ var input = (function() {
 
       momentaryEvents["touchstart"] = true;
       events["touchmove"] = true;
-    });
+    }, { passive: false });
 
     el.addEventListener("touchmove", function(evt) {
       evt.preventDefault();
@@ -67,7 +67,7 @@ var input = (function() {
       self.cur = evtToPos(evt.touches[0]);
       self.touch = self.cur;
       self.onTouchMove.emit(self.cur);
-    });
+    }, { passive: false });
 
     el.addEventListener("touchend", function(evt) {
       if (!self.cur) return;
@@ -86,7 +86,18 @@ var input = (function() {
 
       self.prev = null;
       self.cur = null;
-    });
+    }, { passive: false });
+
+    el.addEventListener("touchcancel", function(evt) {
+      if (!self.cur) return;
+      self.onTouchEnd.emit(self.cur);
+
+      momentaryEvents["touchend"] = true;
+      events["touchmove"] = false;
+
+      self.prev = null;
+      self.cur = null;
+    }, { passive: false });
 
     //
 
@@ -113,6 +124,16 @@ var input = (function() {
     });
 
     el.addEventListener("mouseup", function(evt) {
+      mousedown = false;
+      self.onTouchMove.emit(self.cur);
+
+      momentaryEvents["touchend"] = true;
+      events["touchmove"] = false;
+    });
+
+    el.addEventListener("mouseleave", function(evt) {
+      if (!mousedown)
+        return;
       mousedown = false;
       self.onTouchMove.emit(self.cur);
 
@@ -180,9 +201,10 @@ var input = (function() {
   };
 
   function getContextualPos(pos) {
+    var scale = contextEl.clientWidth / size;
     return {
-      x: pos.x - contextEl.offsetLeft,
-      y: pos.y - contextEl.offsetTop,
+      x: (pos.x - contextEl.offsetLeft) / scale,
+      y: (pos.y - contextEl.offsetTop) / scale,
     };
   }
 

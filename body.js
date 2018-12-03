@@ -45,9 +45,26 @@ var Body = function(opts) {
 
   world.add(this);
 
+  this.remove = function() {
+    world.remove(_this);
+    if (_this.physics) {
+      physics.remove(_this.physics);
+    }
+  }
+
   this.update = function(d) {
     if (_this.physics) {
       _this.physics.update(d);
+    }
+
+    graphics.position.x = _this.x;
+    graphics.position.y = _this.y;
+    graphics.rotation = _this.rotation;
+  }
+
+  this.solve = function(d) {
+    if (_this.physics) {
+      _this.physics.solve(d);
     }
 
     graphics.position.x = _this.x;

@@ -7,6 +7,7 @@ var world = (function() {
         add: add,
         remove: remove,
         update: update,
+        getBodyAt: getBodyAt,
     };
 
     init();
@@ -32,6 +33,22 @@ var world = (function() {
     function update(d) {
         self.children.forEach(function(c) {
             c.update(d);
+        });
+
+        for (var i = 0; i < physics.solveSteps; i++) {
+            self.children.forEach(function(c) {
+                c.solve(d / physics.solveSteps);
+            });
+        }
+    }
+
+    function getBodyAt(x, y) {
+        var offset = 80;
+        return self.children.find(function(c) {
+            if (x >= c.x - c.width / 2 - offset && x <= c.x + c.width / 2 + offset
+                && y >= c.y - c.height / 2 - offset && y <= c.y + c.height / 2 + offset) {
+                return c;
+            }
         });
     }
 
